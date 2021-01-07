@@ -1,0 +1,44 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+    <div>
+        {% for post in posts %}
+            <div class="card m-3 ms-5">
+                <div class="card-header">
+                    <a href="{% url 'detailed' post.id %}" class="card-title fs-3" style="text-decoration: none;">{{ post.title }}</a>
+                    <P class="blockquote fs-6" style="float:right"> <cite>{{ post.author }}</cite> <cite title="Source Title">{{ post.date_posted|date:'F d Y' }}</cite></P>
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="card-text">{{ post.content }}</p>
+
+                    </blockquote>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous%}
+            <a class="btn btn-outline-info m-3" href="?page=1">First</a>
+            <a class="btn btn-outline-info m-3" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info m-3" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info m-3" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info m-3" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info m-3" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+

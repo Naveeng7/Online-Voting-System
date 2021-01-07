@@ -1,0 +1,43 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+    <div class="m-4 d-flex justify-content-center">
+        <form method="POST" action = "{% url 'addcand' %}">
+            {% csrf_token %}
+            <select class="btn border-info" name="canadd" >
+                <option selected disabled>Select Position</option>
+                {% for pos in positions %}
+                    <option value="{{ pos.pname }}">{{ pos.pname|capfirst }}</option>
+                {% endfor %}
+            </select>
+            <select class="btn border-info" name="candadd" >
+                <option selected disabled>Select Candidate</option>
+                {% for u in users %}
+                    <option value="{{ u.username }}">{{ u.username|capfirst }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Add candidate">
+        </form>
+    </div>
+    <div>
+        <table class="table table-info">
+            <thead>
+            <tr>
+                <td><p class="d-flex justify-content-center">Candidate Name</p></td>
+                <td><p class="d-flex justify-content-center">Positions Name</p></td>
+            </tr>
+            </thead>
+            {% for c in candidates %}
+                <tr>
+                    <td>
+                        <p class="d-flex justify-content-center">{{ c.pname }}</p>
+                    </td>
+                    <td>
+                        <p class="d-flex justify-content-center">{{ c.cname }}</p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+<h1>{{ msg }}</h1>
+{% endblock %}

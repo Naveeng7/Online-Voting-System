@@ -1,0 +1,22 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+    <div>
+            <div class="card m-3 ms-5">
+                <div class="card-header">
+                    <inline  class="card-title fs-3">{{ object.title }}</inline>
+                    <P class="blockquote fs-6" style="float:right"> <cite>{{ object.author }}</cite> <cite title="Source Title">{{ object.date_posted|date:'F d Y' }}</cite></P>
+                {% if object.author == user%}
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'update' object.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete' object.id %}">Delete</a>
+                {% endif %}
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="card-text">{{ object.content }}</p>
+
+                    </blockquote>
+                </div>
+            </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+<p class="fs-4 d-flex justify-content-center">{{ msg }}</p>
+<div class="container">
+    <div class="row border">
+        <div class="col-12 fs-4 border d-flex justify-content-center">Manage Positions Here</div>
+            <div class="col-6 border justify-content-center">
+                <div class="m-4 d-flex justify-content-center">
+                    <form method="POST" class="d-flex justify-content-center" action = "{% url 'addndel' %}">
+                    {% csrf_token %}
+                        <div>
+                            <input type="text" name="posadd" placeholder="Add Position" class="form-control">&nbsp;
+                        </div>
+                        <div class="m-2">
+                            <input  type = "submit" value="Add">
+                        </div>
+                    </form>
+                </div>
+                <div class="">
+                    <table class="table table-success table-striped">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <p class="fs-4 d-flex justify-content-center">The existsts posistions are:</p>
+                                </td>
+                            </tr>
+                        </thead>
+                        {% for pos in positions %}
+                        <tr>
+                            <td>
+                                <p class="fs-6 d-flex justify-content-center">{{ pos }}</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-6 border justify-content-center">
+                <div class="m-4 d-flex justify-content-center">
+                    <form method="POST" action = "{% url 'addndel' %}">
+                        {% csrf_token %}
+                        <select class="btn border border-warning" name="posval" >
+                            <option selected disabled>Delete Position</option>
+                                {% for pos in positions %}
+                                    <option value="{{ pos.pname }}">{{ pos.pname|capfirst }}</option>
+                                {% endfor %}
+                        </select>
+                    <input class="btn btn-danger " type = "submit" value="Delete">
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+{% endblock %}

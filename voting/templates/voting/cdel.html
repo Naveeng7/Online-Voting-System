@@ -1,0 +1,54 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+    <div class="m-4 d-flex justify-content-center">
+        <form method="POST" action = "{% url 'delcand' %}">
+            {% csrf_token %}
+            <select class="btn border-warning" name="candel" >
+                <option selected disabled>Choose Position </option>
+                {% for pos in positions %}
+                    <option value="{{ pos.pname }}">{{ pos.pname }}</option>
+                {% endfor %}
+            </select>
+            <input type = "submit" value="Delete">
+        </form>
+    </div>
+
+        <div class="mt-4">
+            <fieldset class="fs-3">The Currently selected Position in: {{ pval }}</fieldset>
+            <form method="POST" action = "{% url 'delcand' %}">
+                {% csrf_token %}
+                <table class="table table-sm">
+                    <div class="table-responsive">
+                        <table class=" table align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Positions</th>
+                                    <th scope="col">Candidates</th>
+                                    <th scope="col">Remove this person</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
+                            {% for can in candidates %}
+                                {% if pval == can.pname %}
+                                <tr class="align-middle">
+                                    <td>{{ can.id }}</td>
+                                    <td>{{ can.cname|capfirst }}</td>
+                                    <td>
+                                        <input class="form-check-input" type="radio" name="canval" id="{{can.cname}}" value="{{ can.cname }}">
+                                        <input type="hidden" name="posval" value="{{ can.pname }}">
+                                        <input type="hidden" name="voter" value="{{ user.username }}">
+                                        <label class="form-check-label" for="{{can.cname}}">Remove</label>
+                                    <td>
+                                        <input type="submit" value="Remove" />
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </table>
+            </form>
+        </div>
+{% endblock %}
