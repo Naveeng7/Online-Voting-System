@@ -158,8 +158,8 @@ def cres(request):
                     if mv < can.cvotes:
                         mv = can.cvotes
                         id = can.cname
-                    if mv > 0:
-                        str = str +f' were competing for the position {canpos} and the winner is {id} with total number of votes is {mv}'
+            if mv > 0:
+                str = str +f' were competing for the position {canpos} and the winner is {id} with total number of votes is {mv}'
 
         if 'title' in request.POST:
             title = request.POST['title']
